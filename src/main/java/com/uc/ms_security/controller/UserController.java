@@ -1,9 +1,10 @@
 package com.uc.ms_security.controller;
 
-import com.uc.ms_security.dto.user.CreateUserDTO;
-import com.uc.ms_security.dto.user.UpdateUserDTO;
-import com.uc.ms_security.dto.user.UserDetailResponseDTO;
-import com.uc.ms_security.dto.user.UserResponseDTO;
+import com.uc.ms_security.dto.CreateUserDTO;
+import com.uc.ms_security.dto.UpdateUserDTO;
+import com.uc.ms_security.dto.UserDetailResponseDTO;
+import com.uc.ms_security.dto.UserResponseDTO;
+import com.uc.ms_security.dto.UserRolesResponseDTO;
 import com.uc.ms_security.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +30,14 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public UserResponseDTO findById(@PathVariable Long id) {
-        return userService.findById(id);
+    @GetMapping({"/{id}", "/{id}/detail"})
+    public UserDetailResponseDTO findByIdAndProfile(@PathVariable Long id) {
+        return userService.findByIdAndProfile(id);
     }
 
-    @GetMapping("/{id}/detail")
-    public UserDetailResponseDTO findByIdAndProfile(@PathVariable Long id) {
-        return userService.findByIdWithProfile(id);
+    @GetMapping("/{id}/detail-with-roles")
+    public UserRolesResponseDTO findByIdAndRoles(@PathVariable Long id) {
+        return userService.findByIdAndRoles(id);
     }
 
     @PutMapping("/{id}")

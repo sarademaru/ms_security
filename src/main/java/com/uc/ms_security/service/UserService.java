@@ -2,7 +2,9 @@ package com.uc.ms_security.service;
 
 import com.uc.ms_security.dto.CreateUserDTO;
 import com.uc.ms_security.dto.UpdateUserDTO;
+import com.uc.ms_security.dto.UserDetailResponseDTO;
 import com.uc.ms_security.dto.UserResponseDTO;
+import com.uc.ms_security.dto.UserRolesResponseDTO;
 import com.uc.ms_security.entity.User;
 import com.uc.ms_security.exception.ApplicationException;
 import com.uc.ms_security.exception.ErrorCase;
@@ -49,6 +51,26 @@ public class UserService {
     public UserResponseDTO findById(Long id) {
         User user = findUser(id);
         return userMapper.toResponseDTO(user);
+    }
+
+    public UserDetailResponseDTO findByIdAndProfile(Long id) {
+        User user = userRepository.findWithProfileById(id)
+                .orElseThrow(() -> new ApplicationException(
+                        ErrorCase.NOT_FOUND,
+                        "Usuario no encontrado con id: " + id
+                ));
+
+        return userMapper.toDetailResponseDTO(user);
+    }
+
+    public UserRolesResponseDTO findByIdAndRoles(Long id) {
+        User user = userRepository.findWithRolesById(id)
+                .orElseThrow(() -> new ApplicationException(
+                        ErrorCase.NOT_FOUND,
+                        "Usuario no encontrado con id: " + id
+                ));
+
+        return userMapper.toRolesResponseDTO(user);
     }
 
     public UserResponseDTO update(Long id, UpdateUserDTO dto) {
